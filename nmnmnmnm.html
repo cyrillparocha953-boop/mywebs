@@ -3,40 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Cyberpunk Neon Runner - Global Mobile</title>
+    <title>Neon Runner Global - Fixed</title>
     <style>
         body {
             margin: 0; background-color: #050505; color: #00f2ff;
             font-family: 'Courier New', Courier, monospace;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            height: 100vh; overflow: hidden; touch-action: none; /* Block default browser gestures */
+            height: 100vh; overflow: hidden; touch-action: none;
         }
-        #game-wrapper { 
-            display: flex; flex-direction: row; align-items: flex-start; gap: 15px; 
-            max-width: 98vw;
-        }
+        #game-wrapper { display: flex; flex-direction: row; align-items: flex-start; gap: 15px; max-width: 98vw; }
         @media (max-width: 850px) {
             #game-wrapper { flex-direction: column; align-items: center; }
-            #leaderboard { width: 90vw !important; height: 120px !important; }
-            canvas { width: 95vw !important; height: auto !important; max-height: 50vh; }
+            #leaderboard { width: 90vw !important; height: 130px !important; }
+            canvas { width: 95vw !important; height: auto !important; }
         }
-
-        #game-container { position: relative; border: 3px solid #00f2ff; box-shadow: 0 0 15px #00f2ff; border-radius: 8px; background: #000; overflow: hidden; }
+        #game-container { position: relative; border: 3px solid #00f2ff; box-shadow: 0 0 15px #00f2ff; border-radius: 8px; background: #000; }
         #leaderboard {
             width: 260px; height: 400px; border: 2px solid #ff007f;
             box-shadow: 0 0 10px #ff007f; background: rgba(5, 5, 5, 0.9);
             padding: 10px; overflow-y: auto; border-radius: 8px;
         }
         #leaderboard h3 { text-align: center; color: #ff007f; border-bottom: 1px solid #ff007f; margin: 0 0 10px 0; font-size: 14px; }
-        .score-entry { display: flex; justify-content: space-between; font-size: 11px; margin: 4px 0; border-bottom: 1px solid rgba(0, 242, 255, 0.1); }
-        
+        .score-entry { display: flex; justify-content: space-between; font-size: 12px; margin: 4px 0; border-bottom: 1px solid rgba(0, 242, 255, 0.1); }
         canvas { display: block; background: #000; }
-        
-        .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: rgba(0, 0, 0, 0.92); z-index: 20; text-align: center; }
-        input { background: transparent; border: 2px solid #ff007f; color: #00f2ff; padding: 12px; text-align: center; margin-bottom: 15px; outline: none; width: 70%; font-size: 16px; }
-        button { background: #ff007f; color: white; border: none; padding: 15px 30px; cursor: pointer; font-weight: bold; font-family: inherit; font-size: 14px; box-shadow: 0 0 10px #ff007f; }
-        
-        #ui-layer { position: absolute; top: 10px; left: 15px; right: 15px; display: flex; justify-content: space-between; pointer-events: none; z-index: 5; font-size: 13px; font-weight: bold; text-shadow: 0 0 5px #000; }
+        .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: rgba(0, 0, 0, 0.9); z-index: 20; text-align: center; }
+        input { background: transparent; border: 2px solid #ff007f; color: #00f2ff; padding: 12px; text-align: center; margin-bottom: 15px; width: 70%; font-size: 16px; }
+        button { background: #ff007f; color: white; border: none; padding: 12px 25px; cursor: pointer; font-weight: bold; }
+        #ui-layer { position: absolute; top: 10px; left: 15px; right: 15px; display: flex; justify-content: space-between; pointer-events: none; z-index: 5; font-size: 13px; }
         .hidden { display: none !important; }
     </style>
 </head>
@@ -45,34 +38,33 @@
     <div id="game-wrapper">
         <div id="game-container">
             <div id="ui-layer">
-                <div>ID: <span id="userNameDisp">---</span></div>
-                <div>XP: <span id="scoreVal">0</span></div>
+                <div>OP: <span id="userNameDisp">---</span></div>
+                <div>SCORE: <span id="scoreVal">0</span></div>
             </div>
 
             <div id="login-screen" class="overlay">
-                <h1 style="color: #00f2ff; margin: 0;">NEON_RUNNER</h1>
-                <p style="font-size: 12px;">GLOBAL CONNECTED</p>
-                <input type="text" id="playerNameInput" maxlength="10" placeholder="ENTER_NAME">
-                <button id="startBtn">SYNC IDENTITY</button>
+                <h1 style="color: #00f2ff;">NEON_SYSTEM</h1>
+                <input type="text" id="playerNameInput" maxlength="10" placeholder="LOGIN_NAME">
+                <button id="startBtn">SYNC</button>
             </div>
 
             <div id="start-screen" class="overlay hidden">
-                <h1 style="color: #ff007f;">READY_TO_RUN</h1>
-                <p>TAP SCREEN OR SPACE TO JUMP</p>
+                <h1 style="color: #ff007f;">READY</h1>
+                <p>TAP OR SPACE TO JUMP</p>
             </div>
 
             <div id="game-over" class="overlay hidden">
-                <h1 style="color: #ff007f; margin: 0;">CRITICAL_FAIL</h1>
-                <p id="final-score" style="font-size: 20px;"></p>
-                <button id="restartBtn">RELOAD SYSTEM</button>
+                <h1 style="color: #ff007f;">GAME OVER</h1>
+                <p id="final-score"></p>
+                <button onclick="location.reload()">RETRY</button>
             </div>
 
             <canvas id="gameCanvas"></canvas>
         </div>
 
         <div id="leaderboard">
-            <h3>GLOBAL_OPERATORS</h3>
-            <div id="score-list">CONNECTING...</div>
+            <h3>GLOBAL_RECORDS</h3>
+            <div id="score-list">FETCHING_DATA...</div>
         </div>
     </div>
 
@@ -80,7 +72,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // Firebase Config (Verified)
         const firebaseConfig = {
             apiKey: "AIzaSyCQF2laulY6pBKf0uXgHLNU2ymGl1p6h3U",
             authDomain: "talon-a0d64.firebaseapp.com",
@@ -95,148 +86,88 @@
         const db = getFirestore(app);
         const colRef = collection(db, "leaderboard");
 
-        const canvas = document.getElementById("gameCanvas");
-        const ctx = canvas.getContext("2d");
-        
-        // Mobile Optimized Canvas Size
-        function resize() {
-            canvas.width = Math.min(window.innerWidth - 30, 700);
-            canvas.height = 350;
-        }
-        resize();
-
-        let gameActive = false, score = 0, playerName = "", gameSpeed = 6, obstacles = [], animationId;
-        const player = { x: 40, y: 200, width: 35, height: 35, dy: 0, jumpForce: 12, gravity: 0.7, grounded: false };
-
-        async function fetchLeaderboard() {
+        async function updateLeaderboardUI() {
             try {
-                const q = query(colRef, orderBy("score", "desc"), limit(12));
+                const q = query(colRef, orderBy("score", "desc"), limit(10));
                 const snap = await getDocs(q);
                 const list = document.getElementById("score-list");
                 list.innerHTML = "";
+                if(snap.empty) { list.innerHTML = "NO RECORDS YET"; return; }
                 snap.forEach(d => {
-                    const row = document.createElement("div");
-                    row.className = "score-entry";
-                    row.innerHTML = `<span>${d.data().name}</span><span>${d.data().score}</span>`;
-                    list.appendChild(row);
+                    const data = d.data();
+                    const div = document.createElement("div");
+                    div.className = "score-entry";
+                    div.innerHTML = `<span>${data.name}</span><span>${data.score}</span>`;
+                    list.appendChild(div);
                 });
-            } catch (err) { console.error("Firebase Error:", err); }
-        }
-
-        async function submitScore(name, val) {
-            const snap = await getDocs(colRef);
-            let targetId = null, topScore = 0;
-            snap.forEach(d => { if(d.data().name === name) { targetId = d.id; topScore = d.data().score; } });
-
-            if(targetId) {
-                if(val > topScore) await updateDoc(doc(db, "leaderboard", targetId), { score: val });
-            } else {
-                await addDoc(colRef, { name: name, score: val });
+            } catch (e) {
+                document.getElementById("score-list").innerHTML = "CONN_ERROR";
+                console.error(e);
             }
-            fetchLeaderboard();
         }
 
-        // --- BUTTON LOGIC ---
+        // --- GAME ENGINE ---
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = Math.min(window.innerWidth - 30, 700);
+        canvas.height = 350;
+
+        let gameActive = false, score = 0, playerName = "", gameSpeed = 6, obstacles = [], animationId;
+        const player = { x: 50, y: 200, width: 35, height: 35, dy: 0, jumpForce: 12, gravity: 0.7, grounded: false };
+
+        async function saveScore(name, val) {
+            try {
+                const snap = await getDocs(colRef);
+                let existingId = null, top = 0;
+                snap.forEach(d => { if(d.data().name === name) { existingId = d.id; top = d.data().score; } });
+                if(existingId) { if(val > top) await updateDoc(doc(db, "leaderboard", existingId), { score: val }); }
+                else { await addDoc(colRef, { name: name, score: val }); }
+                updateLeaderboardUI();
+            } catch(e) { console.error(e); }
+        }
+
         document.getElementById("startBtn").onclick = () => {
-            const input = document.getElementById("playerNameInput").value.trim().toUpperCase();
-            if(input) {
-                playerName = input;
+            playerName = document.getElementById("playerNameInput").value.trim().toUpperCase();
+            if(playerName) {
                 document.getElementById("userNameDisp").innerText = playerName;
                 document.getElementById("login-screen").classList.add("hidden");
                 document.getElementById("start-screen").classList.remove("hidden");
             }
         };
 
-        document.getElementById("restartBtn").onclick = () => location.reload();
-
-        class Obstacle {
-            constructor() {
-                this.width = 25;
-                this.height = 30 + Math.random() * 50;
-                this.x = canvas.width;
-                this.y = canvas.height - this.height;
-            }
-            draw() {
-                ctx.fillStyle = "#ff007f";
-                ctx.shadowBlur = 10; ctx.shadowColor = "#ff007f";
-                ctx.fillRect(this.x, this.y, this.width, this.height);
-                ctx.shadowBlur = 0;
-            }
-            update() { this.x -= gameSpeed; }
+        function jump() {
+            if(!gameActive && !document.getElementById("start-screen").classList.contains("hidden")) {
+                document.getElementById("start-screen").classList.add("hidden");
+                gameActive = true; gameLoop();
+            } else if(player.grounded && gameActive) { player.dy = -player.jumpForce; player.grounded = false; }
         }
 
         function gameLoop() {
             if(!gameActive) return;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            player.dy += player.gravity; player.y += player.dy;
+            if(player.y + player.height > canvas.height) { player.y = canvas.height - player.height; player.dy = 0; player.grounded = true; }
+            ctx.fillStyle = "#00f2ff"; ctx.fillRect(player.x, player.y, player.width, player.height);
             
-            // Physics
-            player.dy += player.gravity;
-            player.y += player.dy;
-            if(player.y + player.height > canvas.height) {
-                player.y = canvas.height - player.height;
-                player.dy = 0;
-                player.grounded = true;
-            }
-            
-            // Player
-            ctx.fillStyle = "#00f2ff";
-            ctx.shadowBlur = 15; ctx.shadowColor = "#00f2ff";
-            ctx.fillRect(player.x, player.y, player.width, player.height);
-            ctx.shadowBlur = 0;
-
-            // Obstacles
-            if(Math.random() < 0.02 && (obstacles.length === 0 || obstacles[obstacles.length-1].x < canvas.width - 250)) {
-                obstacles.push(new Obstacle());
-            }
-
-            for(let i = obstacles.length-1; i >=0; i--) {
-                obstacles[i].update();
-                obstacles[i].draw();
-
-                // Collision
-                if(player.x < obstacles[i].x + obstacles[i].width && 
-                   player.x + player.width > obstacles[i].x && 
-                   player.y < obstacles[i].y + obstacles[i].height && 
-                   player.y + player.height > obstacles[i].y) {
+            if(Math.random() < 0.02) obstacles.push({x: canvas.width, w: 25, h: 30+Math.random()*40});
+            obstacles.forEach((o, i) => {
+                o.x -= gameSpeed;
+                ctx.fillStyle = "#ff007f"; ctx.fillRect(o.x, canvas.height - o.h, o.w, o.h);
+                if(player.x < o.x + o.w && player.x + player.width > o.x && player.y + player.height > canvas.height - o.h) {
                     gameActive = false;
-                    cancelAnimationFrame(animationId);
-                    document.getElementById("final-score").innerText = "SCORE: " + score;
                     document.getElementById("game-over").classList.remove("hidden");
-                    submitScore(playerName, score);
-                    return;
+                    document.getElementById("final-score").innerText = "SCORE: " + score;
+                    saveScore(playerName, score);
                 }
-
-                // Scoring
-                if(obstacles[i].x + obstacles[i].width < 0) {
-                    obstacles.splice(i, 1);
-                    score++;
-                    document.getElementById("scoreVal").innerText = score;
-                    gameSpeed += 0.05;
-                }
-            }
+                if(o.x + o.w < 0) { obstacles.splice(i, 1); score++; document.getElementById("scoreVal").innerText = score; gameSpeed += 0.05; }
+            });
             animationId = requestAnimationFrame(gameLoop);
         }
 
-        // --- UNIFIED CONTROLS ---
-        function triggerJump() {
-            if(!gameActive && !document.getElementById("start-screen").classList.contains("hidden")) {
-                document.getElementById("start-screen").classList.add("hidden");
-                gameActive = true;
-                gameLoop();
-            } else if(player.grounded && gameActive) {
-                player.dy = -player.jumpForce;
-                player.grounded = false;
-            }
-        }
+        window.addEventListener("keydown", (e) => { if(e.code === "Space") jump(); });
+        canvas.addEventListener("touchstart", (e) => { e.preventDefault(); jump(); }, {passive: false});
 
-        // Desktop
-        window.addEventListener("keydown", (e) => { if(e.code === "Space") { e.preventDefault(); triggerJump(); } });
-        // Mobile / Touch (Full screen detect)
-        canvas.addEventListener("touchstart", (e) => { e.preventDefault(); triggerJump(); }, {passive: false});
-        document.getElementById("start-screen").addEventListener("touchstart", (e) => { e.preventDefault(); triggerJump(); }, {passive: false});
-
-        fetchLeaderboard();
-        window.onresize = resize;
+        updateLeaderboardUI();
     </script>
 </body>
 </html>
